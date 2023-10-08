@@ -5,6 +5,7 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy.schema import PrimaryKeyConstraint
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:114324@localhost/hacdatabase'
@@ -23,7 +24,7 @@ class User(db.Model,UserMixin):
     username = db.Column(db.String(255), unique=True, nullable=False)
     email = db.Column(db.String(255), unique=True, nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
-    courses = db.relationship('Course', backref='user', lazy=True)
+    courses = db.relationship('Course', backref='user', lazy=True,cascade='all, delete-orphan')
 
     # Method to set password hash
     def set_password(self, password):
@@ -37,8 +38,17 @@ class Course(db.Model):
     course_name = db.Column(db.String(128), nullable=False)
     syllabus = db.Column(db.Text, nullable=True)
     description = db.Column(db.Text, nullable=True)
-    professor_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    professor_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
+    lecture_notes = db.relationship('LectureNote', backref='course', lazy=True,cascade='all, delete-orphan')
 
+class LectureNote(db.Model):
+    id = db.Column(db.Integer, nullable=False)
+    chapter_name = db.Column(db.String(128), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    course_id = db.Column(db.Integer, db.ForeignKey('course.id', ondelete='CASCADE'), nullable=False)
+    __table_args__ = (
+        PrimaryKeyConstraint('id', 'course_id'),
+    )
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
