@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+    <h1>Welcome, {{ current_user.username }}</h1>
+
+    <h2>Your Courses</h2>
+    {% if courses %}
+        <ul>
+            {% for course in courses %}
+                <li>
+                    {{ course.course_name }} - <a href="{{ url_for('course_details', course_id=course.id) }}">View Details</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You haven't contributed to the teaching community.</p>
+    {% endif %}
+
+    <!-- Button to create a new course -->
+    <a href="{{ url_for('create_course') }}" class="btn">Create New Course</a>
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professor's Hub</title>
+    <style>
+        /* Basic CSS for the menu column */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        #menu {
+            width: 20%; /* Adjust the width of the menu column */
+            background-color: #333;
+            color: white;
+            position: fixed;
+            height: 100%;
+            overflow: auto;
+        }
+        #menu button {
+            width: 100%;
+            padding: 22px 0;
+            text-align: left;
+            background-color: #444;
+            border: none;
+            outline: none;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #menu button:hover {
+            background-color: #555;
+        }
+        #content {
+            margin-left: 20%; /* Match the menu width */
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu Column -->
+    <div id="menu">
+        <button onclick="navigateTo('home.html')">Home</button>
+        <button onclick="navigateTo('courses.html')">Courses</button>
+        <button onclick="navigateTo('publications.html')">Publications</button>
+        <button onclick="navigateTo('research.html')">Research</button>
+        <button onclick="navigateTo('contact.html')">Contact</button>
+    </div>
+
+    <!-- Content -->
+    <div id="content">
+        <!-- Content for the Home page -->
+        <h1>Welcome to Professor's Hub</h1>
+        <p>This is your personal page where you can showcase your information.</p>
+    </div>
+
+    <!-- JavaScript to handle navigation -->
+    <script>
+        function navigateTo(page) {
+            if (page === 'courses.html') {
+                // Use window.open to open the courses.html page in a new tab or window
+                window.open(page, 'courses.html');
+            } else {
+                // Use window.location.href to navigate to other pages
+                window.location.href = page;
+            }
+        }
+    </script>
+</body>
+</html>
